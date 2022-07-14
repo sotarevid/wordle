@@ -64,8 +64,7 @@ const App = () => {
                 if (checkWin(matrix[currentRow])) {
                     showAlert(true);
                 }
-
-                if (currentRow === 5) {
+                else if (currentRow === 5) {
                     showAlert(false);
                 }
 
