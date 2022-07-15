@@ -42,17 +42,16 @@ const checkRow = (actual, expected) => {
     }
 
     actualIndex = 0;
-    expectedIndex = 0;
-    while (actualIndex < actual.length || expectedIndex < expectedCopy.length) {
+    while (actualIndex < actual.length) {
         let index = expectedCopy.indexOf(actual[actualIndex].letter);
         if (index > -1) {
-            result[actualIndex] = { letter: actual[actualIndex].letter, status: "partial" }
-            expectedCopy = expectedCopy.slice(0, index).concat(expectedCopy.slice(index + 1))
+            if (result[actualIndex] === undefined) {
+                result[actualIndex] = { letter: actual[actualIndex].letter, status: "partial" }
+                expectedCopy = expectedCopy.slice(0, index).concat(expectedCopy.slice(index + 1))
+            }
         } else {
             if (result[actualIndex] === undefined)
                 result[actualIndex] = { letter: actual[actualIndex].letter, status: "wrong" }
-
-            expectedIndex++;
         }
         actualIndex++;
     }
