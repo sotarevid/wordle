@@ -41,6 +41,9 @@ const checkRow = (actual, expected) => {
         actualIndex++;
     }
 
+    if (expectedCopy.length === 0)
+        return { row: result, win: true }
+
     actualIndex = 0;
     while (actualIndex < actual.length) {
         let index = expectedCopy.indexOf(actual[actualIndex].letter);
@@ -56,15 +59,8 @@ const checkRow = (actual, expected) => {
         actualIndex++;
     }
 
-    return result;
+    return { row: result, win: false };
 }
 
-const checkWin = (actual) => {
-    for (let i = 0; i < actual.length; i++)
-        if (actual[i].status !== "correct")
-            return false;
 
-    return true;
-}
-
-export { generateWord, generateMatrix, checkRow, checkWin, isWordAllowed };
+export { generateWord, generateMatrix, checkRow, isWordAllowed };
