@@ -35,7 +35,7 @@ const App = () => {
         setIsGameOver(true);
         setIsGameWon(win);
 
-        showGameOverCard();
+        setTimeout(() => showGameOverCard(), 1150);
     }
 
     const showGameOverCard = () => {

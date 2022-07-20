@@ -17,7 +17,7 @@ const GameOverCard = ({ stats, resetHandler, hidden, win, tries, word }) => {
     }
 
     return (
-        <div className={`flex flex-col w-72 md:w-80 h-96 py-4 px-4 bg-white rounded-lg border-2 shadow-md shadow-dark border-dark absolute translate-y-20 z-10 ${hidden ? "opacity-0" : "opacity-100"} transition-opacity duration-150`}>
+        <div className={`flex flex-col w-72 md:w-80 h-96 py-4 px-4 bg-white rounded-lg border-2 shadow-md shadow-dark border-dark absolute translate-y-20 ${hidden ? "-z-10" : "z-10"} z-10 ${hidden ? "opacity-0" : "opacity-100"}`}>
             <div className="flex-none text-center">
 
                 <h1 className="text-lg">{win ? "Congratulations!" : "Nice try!"}</h1>
