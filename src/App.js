@@ -11,6 +11,8 @@ const App = () => {
     const [currentRow, setRow] = useState(0);
     const [currentColumn, setColumn] = useState(0);
 
+    const [letters, setLetters] = useState("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').reduce((a, v) => ({ ...a, [v]: undefined })));
+
     const [isGameOver, setIsGameOver] = useState(false);
 
     const [winAlertHidden, setWinAlertHidden] = useState(true);
@@ -72,6 +74,11 @@ const App = () => {
 
                 let rowCheckResult = checkRow(matrix[currentRow], word);
                 matrix[currentRow] = rowCheckResult.row;
+                let newLetters = { ...letters }
+                rowCheckResult.row.forEach(e => {
+                    newLetters[e.letter] = e.status;
+                });
+                setLetters(newLetters);
 
                 if (rowCheckResult.win) {
                     handleGameOver(true);
@@ -95,12 +102,12 @@ const App = () => {
     }
 
     return (
-        <div id="game" className="py-4 px-2 flex flex-col items-center h-screen w-screen outline-none" onKeyDown={handleKeyDown} tabIndex={-1}>
+        <div id="game" className="py-4 px-2 flex flex-col gap-2 items-center h-screen w-screen outline-none" onKeyDown={handleKeyDown} tabIndex={-1}>
             <GameBoard matrix={matrix} />
             {winAlert}
             {loseAlert}
             {wordAlert}
-            <Keyboard keyHandler={handleKeyDown} />
+            <Keyboard keyHandler={handleKeyDown} letters={letters} />
             <button className={`bg-correct border-2 border-[#464f51] rounded h-10 font-medium px-4 mx-1 my-1 ${isGameOver ? "" : "hidden"}`} onClick={reset}>Play again</button>
         </div >
     );
