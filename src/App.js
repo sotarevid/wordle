@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import Alert from './components/Alert';
+import GameOverCard from './components/GameOverCard';
 import GameBoard from './components/GameBoard';
 import Keyboard from './components/Keyboard';
 import { generateWord, generateMatrix, checkRow, isWordAllowed } from './scripts/GameLogic';
+import { getStatsFromLocalStorage, saveStatsToLocalStorage } from './scripts/Stats';
 
 
 const App = () => {
@@ -12,32 +14,32 @@ const App = () => {
     const [currentColumn, setColumn] = useState(0);
 
     const [letters, setLetters] = useState("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').reduce((a, v) => ({ ...a, [v]: undefined })));
+    const [stats, setStats] = useState(getStatsFromLocalStorage());
 
     const [isGameOver, setIsGameOver] = useState(false);
+    const [isGameWon, setIsGameWon] = useState(false);
 
-    const [winAlertHidden, setWinAlertHidden] = useState(true);
-    const winAlert = <Alert hidden={winAlertHidden}>Congratulations, you got it!</Alert>
-    const [loseAlertHidden, setLoseAlertHidden] = useState(true);
-    const loseAlert = <Alert hidden={loseAlertHidden}>{`Nice try! The word was "${word}".`}</Alert>
+    const [gameOverCardHidden, setGameOverCardHidden] = useState(true);
     const [wordAlertHidden, setWordAlertHidden] = useState(true);
     const wordAlert = <Alert hidden={wordAlertHidden}>This word is not in the words list!</Alert>
 
     const handleGameOver = (win) => {
-        setIsGameOver(true);
+        let newStats = { ...stats };
+        if (win)
+            newStats[currentRow + 1] += 1;
+        else
+            newStats["loss"] += 1;
+        setStats(newStats);
+        saveStatsToLocalStorage(newStats);
 
-        showGameOverAlert(win);
+        setIsGameOver(true);
+        setIsGameWon(win);
+
+        showGameOverCard();
     }
 
-    const showGameOverAlert = (win) => {
-        if (win) {
-            setWinAlertHidden(false);
-
-            setTimeout(() => setWinAlertHidden(true), 2500);
-        } else {
-            setLoseAlertHidden(false);
-
-            setTimeout(() => setLoseAlertHidden(true), 2500);
-        }
+    const showGameOverCard = () => {
+        setGameOverCardHidden(false);
     }
 
     const showWordAlert = () => {
@@ -49,9 +51,14 @@ const App = () => {
     const reset = () => {
         setWord(generateWord());
         setMatrix(generateMatrix(6, 5));
+        setLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').reduce((a, v) => ({ ...a, [v]: undefined })));
         setIsGameOver(false);
+        setIsGameWon(false);
+        setGameOverCardHidden(true);
         setColumn(0);
         setRow(0);
+
+        document.getElementById('game').focus();
     }
 
     const handleKeyDown = (e) => {
@@ -104,11 +111,9 @@ const App = () => {
     return (
         <div id="game" className="py-4 px-2 flex flex-col gap-2 items-center h-screen w-screen outline-none" onKeyDown={handleKeyDown} tabIndex={-1}>
             <GameBoard matrix={matrix} />
-            {winAlert}
-            {loseAlert}
             {wordAlert}
+            <GameOverCard stats={stats} resetHandler={reset} win={isGameWon} word={word} hidden={gameOverCardHidden} tries={currentRow} />
             <Keyboard keyHandler={handleKeyDown} letters={letters} />
-            <button className={`bg-correct border-2 border-[#464f51] rounded h-10 font-medium px-4 mx-1 my-1 ${isGameOver ? "" : "hidden"}`} onClick={reset}>Play again</button>
         </div >
     );
 }

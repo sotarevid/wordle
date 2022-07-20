@@ -24,7 +24,7 @@ const Keyboard = ({ keyHandler, letters }) => {
             result.push(
                 <div key={i} className="">
                     {keyboard[i].split("").map(e =>
-                        <button key={e} className={`rounded border-2 border-empty w-6 h-8 md:w-10 md:h-10 ${getBackgroundColor(letters[e])} font-medium mx-0.5 my-0.5`} onClick={() => keyHandler({ key: e })}>
+                        <button key={e} className={`rounded border-2 border-empty w-7 h-8 md:w-10 md:h-10 ${getBackgroundColor(letters[e])} font-medium mx-0.5 my-0.5`} onClick={() => keyHandler({ key: e })}>
                             {e}
                         </button>
                     )}
