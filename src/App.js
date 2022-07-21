@@ -83,7 +83,8 @@ const App = () => {
                 matrix[currentRow] = rowCheckResult.row;
                 let newLetters = { ...letters }
                 rowCheckResult.row.forEach(e => {
-                    newLetters[e.letter] = e.status;
+                    if (newLetters[e.letter] !== "correct" || (newLetters[e.letter] === "partial" && e.status === "correct"))
+                        newLetters[e.letter] = e.status;
                 });
                 setLetters(newLetters);
 
@@ -114,7 +115,7 @@ const App = () => {
             {wordAlert}
             <GameOverCard stats={stats} resetHandler={reset} win={isGameWon} word={word} hidden={gameOverCardHidden} tries={currentRow} />
             <Keyboard keyHandler={handleKeyDown} letters={letters} />
-        </div >
+        </div>
     );
 }
 
