@@ -1,9 +1,9 @@
 import { Tile, TileStatus } from "../types/Tile";
-import { AllowedGuessesList } from "./AllowedGuessesList";
-import { GetWordList } from "./WordList"
+import { AllowedWordList } from "./AllowedWordList";
+import { TargetWordList } from "./TargetWordList"
 
 const generateWord = () => {
-    let list = GetWordList()
+    let list = TargetWordList()
     return list[Math.floor(Math.random() * list.length)].toUpperCase();
 }
 
@@ -23,7 +23,7 @@ const generateMatrix = (rows: number, columns: number) => {
 }
 
 const isWordAllowed = (word: Tile[]) => {
-    return AllowedGuessesList().indexOf(word.map(e => e.letter).join("").toLowerCase()) > -1;
+    return AllowedWordList().indexOf(word.map(e => e.letter).join("").toLowerCase()) > -1;
 }
 
 const checkRow = (actual: Tile[], expected: string) => {

@@ -1,4 +1,4 @@
-export const AllowedGuessesList = () => [
+export const AllowedWordList = () => [
     "women",
     "nikau",
     "swack",

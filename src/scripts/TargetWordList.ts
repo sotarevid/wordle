@@ -1,4 +1,4 @@
-export const GetWordList = () => [
+export const TargetWordList = () => [
     "cigar",
     "rebut",
     "sissy",
