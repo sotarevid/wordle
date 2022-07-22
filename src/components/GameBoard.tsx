@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tile } from '../types/Tile';
-import LetterBox from './LetterBox';
+import BoardTile from './BoardTile'
 
 type GameBoardProps = {
     matrix: Tile[][];
@@ -14,7 +14,7 @@ const GameBoard = ({ matrix }: GameBoardProps) => {
                     <div key={rowIndex} className="flex flex-row justify-center gap-2.5 md:gap-4">
                         {
                             row.map((tile, tileIndex) =>
-                                <LetterBox key={tileIndex} letter={tile} />
+                                <BoardTile key={tileIndex} tile={tile} />
                             )
                         }
                     </div>

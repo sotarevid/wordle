@@ -19,18 +19,18 @@ const getBackgroundColor = (status: TileStatus) => {
     return "bg-white"
 }
 
-type LetterBoxProps = {
-    letter: Tile;
+type BoardTileProps = {
+    tile: Tile;
 }
 
-const LetterBox = ({ letter }: LetterBoxProps) => {
+const BoardTile = ({ tile }: BoardTileProps) => {
     return (
-        <div className={`flex justify-center border-2 h-12 w-12 rounded-lg transition-bg duration-1200 ${getBorderColor(letter.letter, letter.status)} ${getBackgroundColor(letter.status)}`}>
+        <div className={`flex justify-center border-2 h-12 w-12 rounded-lg transition-bg duration-1200 ${getBorderColor(tile.letter, tile.status)} ${getBackgroundColor(tile.status)}`}>
             <span className="absolute text-4xl font-medium">
-                {letter.letter}
+                {tile.letter}
             </span>
         </div>
     )
 }
 
-export default LetterBox
+export default BoardTile
