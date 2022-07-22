@@ -1,3 +1,5 @@
+import React from 'react'
+
 const getBorderColor = (letter, status) => {
     return status === "unchecked"
         ? letter

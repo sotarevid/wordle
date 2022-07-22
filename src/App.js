@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState } from 'react';
 import Alert from './components/Alert';
 import GameOverCard from './components/GameOverCard';
@@ -6,6 +7,12 @@ import Keyboard from './components/Keyboard';
 import { generateWord, generateMatrix, checkRow, isWordAllowed } from './scripts/GameLogic';
 import { getStatsFromLocalStorage, saveStatsToLocalStorage } from './scripts/Stats';
 
+const getKeyboardLetters = () => {
+    return "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        .split('')
+        .map(l => ({ letter: l, status: undefined }))
+        .reduce((obj, l) => ({ ...obj, [l.letter]: l.status }), {});
+}
 
 const App = () => {
     const [word, setWord] = useState(generateWord());
@@ -13,7 +20,7 @@ const App = () => {
     const [currentRow, setRow] = useState(0);
     const [currentColumn, setColumn] = useState(0);
 
-    const [letters, setLetters] = useState("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').reduce((a, v) => ({ ...a, [v]: undefined })));
+    const [letters, setLetters] = useState(getKeyboardLetters());
     const [stats, setStats] = useState(getStatsFromLocalStorage());
 
     const [isGameOver, setIsGameOver] = useState(false);
@@ -21,7 +28,6 @@ const App = () => {
 
     const [gameOverCardHidden, setGameOverCardHidden] = useState(true);
     const [wordAlertHidden, setWordAlertHidden] = useState(true);
-    const wordAlert = <Alert hidden={wordAlertHidden}>This word is not in the words list!</Alert>
 
     const handleGameOver = (win) => {
         let newStats = { ...stats };
@@ -51,7 +57,7 @@ const App = () => {
     const reset = () => {
         setWord(generateWord());
         setMatrix(generateMatrix(6, 5));
-        setLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').reduce((a, v) => ({ ...a, [v]: undefined })));
+        setLetters(getKeyboardLetters());
         setIsGameOver(false);
         setIsGameWon(false);
         setGameOverCardHidden(true);
@@ -112,7 +118,7 @@ const App = () => {
     return (
         <div id="game" className="py-4 px-2 flex flex-col gap-2 items-center h-screen w-screen outline-none" onKeyDown={handleKeyDown} tabIndex={-1}>
             <GameBoard matrix={matrix} />
-            {wordAlert}
+            <Alert hidden={wordAlertHidden}>This word is not in the words list!</Alert>
             <GameOverCard stats={stats} resetHandler={reset} win={isGameWon} word={word} hidden={gameOverCardHidden} tries={currentRow} />
             <Keyboard keyHandler={handleKeyDown} letters={letters} />
         </div>

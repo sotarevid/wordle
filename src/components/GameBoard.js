@@ -1,28 +1,20 @@
 import React from 'react'
-import GameRow from './GameRow';
-
-const RenderBoard = (matrix) => {
-    let result = [];
-
-    for (let i = 0; i < matrix.length; i++) {
-        result.push(
-            <li key={i}>
-                <GameRow line={matrix[i]} />
-            </li>
-        );
-    }
-
-    return result;
-}
+import LetterBox from './LetterBox';
 
 const GameBoard = ({ matrix }) => {
-    let board = RenderBoard(matrix);
-
     return (
-        <div className="z-0">
-            <ul className="list-none pl-0">
-                {board}
-            </ul>
+        <div className="flex flex-col gap-2.5 md:gap-4 my-2">
+            {
+                matrix.map((row, rowIndex) =>
+                    <div key={rowIndex} className="flex flex-row justify-center gap-2.5 md:gap-4">
+                        {
+                            row.map((tile, tileIndex) =>
+                                <LetterBox key={tileIndex} letter={tile} />
+                            )
+                        }
+                    </div>
+                )
+            }
         </div>
     )
 }
