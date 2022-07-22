@@ -10,4 +10,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-document.getElementById('game').focus()
+document.getElementById('game')?.focus()

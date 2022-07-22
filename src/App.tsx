@@ -5,9 +5,10 @@ import GameOverCard from './components/GameOverCard';
 import GameBoard from './components/GameBoard';
 import Keyboard from './components/Keyboard';
 import { generateWord, generateMatrix, checkRow, isWordAllowed } from './scripts/GameLogic';
-import { getStatsFromLocalStorage, saveStatsToLocalStorage } from './scripts/Stats';
+import { getStatsFromLocalStorage, saveStatsToLocalStorage, Stats } from './types/Stats';
+import { TileStatus } from './types/Tile';
 
-const getKeyboardLetters = () => {
+const getKeyboardLetters: () => Record<string, TileStatus> = () => {
     return "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         .split('')
         .map(l => ({ letter: l, status: undefined }))
@@ -29,12 +30,12 @@ const App = () => {
     const [gameOverCardHidden, setGameOverCardHidden] = useState(true);
     const [wordAlertHidden, setWordAlertHidden] = useState(true);
 
-    const handleGameOver = (win) => {
-        let newStats = { ...stats };
+    const handleGameOver = (win: boolean) => {
+        let newStats: Stats = { ...stats };
         if (win)
             newStats[currentRow + 1] += 1;
         else
-            newStats["loss"] += 1;
+            newStats["Loss"] += 1;
         setStats(newStats);
         saveStatsToLocalStorage(newStats);
 
@@ -64,10 +65,10 @@ const App = () => {
         setColumn(0);
         setRow(0);
 
-        document.getElementById('game').focus();
+        document.getElementById('game')?.focus();
     }
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: { key: string }) => {
         if (isGameOver)
             return;
 
@@ -89,7 +90,7 @@ const App = () => {
                 matrix[currentRow] = rowCheckResult.row;
                 let newLetters = { ...letters }
                 rowCheckResult.row.forEach(e => {
-                    if (newLetters[e.letter] !== "correct" || (newLetters[e.letter] === "partial" && e.status === "correct"))
+                    if (newLetters[e.letter] < e.status)
                         newLetters[e.letter] = e.status;
                 });
                 setLetters(newLetters);

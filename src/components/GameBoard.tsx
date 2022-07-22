@@ -1,7 +1,12 @@
 import React from 'react'
+import { Tile } from '../types/Tile';
 import LetterBox from './LetterBox';
 
-const GameBoard = ({ matrix }) => {
+type GameBoardProps = {
+    matrix: Tile[][];
+}
+
+const GameBoard = ({ matrix }: GameBoardProps) => {
     return (
         <div className="flex flex-col gap-2.5 md:gap-4 my-2">
             {

@@ -1,7 +1,17 @@
 import React from 'react'
+import { Stats } from '../types/Stats';
 
-const GameOverCard = ({ stats, resetHandler, hidden, win, tries, word }) => {
-    const findMax = (stats) => {
+type GameOverCardProps = {
+    stats: Stats;
+    resetHandler: () => void;
+    hidden: boolean;
+    win: boolean;
+    tries: number;
+    word: string;
+}
+
+const GameOverCard = ({ stats, resetHandler, hidden, win, tries, word }: GameOverCardProps) => {
+    const findMax = (stats: Stats) => {
         let values = Object.values(stats)
         return Math.max(...values);
     }
