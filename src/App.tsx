@@ -11,7 +11,7 @@ import { TileStatus } from './types/Tile';
 const getKeyboardLetters: () => Record<string, TileStatus> = () => {
     return "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         .split('')
-        .map(l => ({ letter: l, status: undefined }))
+        .map(l => ({ letter: l, status: TileStatus.Unchecked }))
         .reduce((obj, l) => ({ ...obj, [l.letter]: l.status }), {});
 }
 
